@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Working Chat App</title>
+
+    <style>
+        body{
+            margin: 0;
+            background: #0f172a;
+            font-family: Arial;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .chat-container{
+            width: 100%;
+            max-width: 450px;
+            height: 90vh;
+            background: #1e293b;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(0,0,0,0.4);
+        }
+
+        .chat-header{
+            background: #0ea5e9;
+            padding: 15px;
+            color: white;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .chat-box{
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .message{
+            max-width: 70%;
+            padding: 10px 14px;
+            border-radius: 15px;
+            font-size: 15px;
+            line-height: 1.4;
+        }
+
+        .sent{
+            margin-left: auto;
+            background: #4ade80;
+            color: #062e0a;
+            border-bottom-right-radius: 0;
+        }
+
+        .received{
+            margin-right: auto;
+            background: #334155;
+            color: #fff;
+            border-bottom-left-radius: 0;
+        }
+
+        .chat-input-box{
+            display: flex;
+            padding: 10px;
+            background: #0f172a;
+        }
+
+        input{
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 20px;
+            outline: none;
+            background: #334155;
+            color: white;
+        }
+
+        button{
+            margin-left: 10px;
+            padding: 12px 18px;
+            border: none;
+            background: #0ea5e9;
+            color: white;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        button:hover{
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="chat-container">
+
+        <div class="chat-header">
+            Working Chat App
+        </div>
+
+        <div class="chat-box" id="chatBox">
+            <div class="message received">Welcome! Type a message below 👇</div>
+        </div>
+
+        <div class="chat-input-box">
+            <input type="text" id="messageInput" placeholder="Type a message...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+
+    </div>
+
+    <script>
+        const chatBox = document.getElementById("chatBox");
+        const messageInput = document.getElementById("messageInput");
+
+        function sendMessage() {
+            const text = messageInput.value.trim();
+            if (text === "") return;
+
+            // Create user (sent) message
+            const msg = document.createElement("div");
+            msg.className = "message sent";
+            msg.textContent = text;
+            chatBox.appendChild(msg);
+
+            messageInput.value = "";
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // Auto bot reply
+            setTimeout(() => {
+                const bot = document.createElement("div");
+                bot.className = "message received";
+                bot.textContent = "You said: " + text;
+                chatBox.appendChild(bot);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 600);
+        }
+
+        // Send message on Enter key
+        messageInput.addEventListener("keypress", function(e) {
+            if (e.key === "Enter") {
+                sendMessage();
+            }
+        });
+    </script>
+
+</body>
+</html>
